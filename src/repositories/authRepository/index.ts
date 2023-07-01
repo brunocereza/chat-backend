@@ -1,9 +1,10 @@
+import { ILogin } from '../../shared/types/login';
 import { IAuthRepository } from './type';
 
-const usersRepository: IAuthRepository = {
-  getToken: async (id: number): Promise<void> => {
-    console.log(id);
-  },
-};
+export class AuthRepository implements IAuthRepository {
+  public async login(params: ILogin): Promise<void> {
+    console.log(params);
 
-export default usersRepository;
+    return;
+  }
+}

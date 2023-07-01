@@ -1,3 +1,5 @@
+import { Login } from '../../shared/types/login';
+
 export type IAuthRepository = {
-  getToken: (id: number) => Promise<void>;
+  login: (params: Login) => Promise<void>;
 };
