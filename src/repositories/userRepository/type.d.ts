@@ -1,5 +1,7 @@
-import { Login } from '../../shared/types/login';
+import { createUserParams } from '../../shared/dto/user';
+import { IUser } from '../../shared/types/user';
 
 export type IUserRepository = {
-  create: (params: Login) => Promise<boolean>;
+  create: (params: createUserParams) => Promise<boolean>;
+  getOne(username: string): Promise<IUser>;
 };

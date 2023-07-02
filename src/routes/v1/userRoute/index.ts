@@ -1,19 +1,23 @@
 import { Segments, celebrate } from 'celebrate';
 import { Router } from 'express';
-import { UserController } from '../../../controllers/v1/userController';
-import { userSchemaValidation } from '../../../schema/validate/user';
+// import { createUserMiddleware } from '../../../middleware/createUser';
+import { userController } from '../../../controllers/v1/userController';
+import passport from '../../../middleware/user';
 import { createUserParams } from '../../../shared/dto/user';
+import { createUserValidation } from '../../../shared/validation/user';
 
 const userRoute = Router();
 
-//o esquema utilizado esta somente como exemplo, será ajustado e retirado
+//Implementar passport.js
 userRoute.post(
   '/create',
-  celebrate({ [Segments.BODY]: userSchemaValidation }),
+  celebrate({ [Segments.BODY]: createUserValidation }),
+  passport.authenticate('local', {
+    session: false,
+  }),
   async (req, res) => {
     const params: createUserParams = req?.body;
-    const sserController = new UserController();
-    const usuario = await sserController.create(params);
+    const usuario = await userController.create(params);
     return res.status(usuario ? 200 : 400).json({
       message: usuario
         ? 'Usuário criado com sucesso!'

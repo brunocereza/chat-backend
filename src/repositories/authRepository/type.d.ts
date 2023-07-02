@@ -1,5 +1,6 @@
-import { Login } from '../../shared/types/login';
+import { loginParams } from '../../shared/dto/login';
+import { ILogin } from '../../shared/types/login';
 
 export type IAuthRepository = {
-  login: (params: Login) => Promise<void>;
+  login: (params: loginParams) => Promise<ILogin>;
 };
