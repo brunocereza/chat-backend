@@ -5,6 +5,7 @@ const HOST = process.env.HOST || '';
 export class DatabaseManager {
   async connectInit(): Promise<SessionStarter> {
     const connection = await mongoose.connect(HOST);
+
     return connection.connection;
   }
 

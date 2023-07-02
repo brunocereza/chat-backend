@@ -1,5 +1,6 @@
+import { loginParams } from '../../../shared/dto/login';
 import { ILogin } from '../../../shared/types/login';
 
 export type IAuthController = {
-  login: (params: ILogin) => Promise<void>;
+  login: (params: loginParams) => Promise<ILogin>;
 };

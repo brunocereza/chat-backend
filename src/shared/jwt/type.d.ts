@@ -1,11 +1,16 @@
 export type JwtType = {
   username: string;
-  schema: string;
-  usersTypesId: number;
-  userId: number;
+  _id: string;
+  iat: string;
+  exp: string;
+};
+
+export type JwtProps = {
+  username: string;
+  _id: string;
 };
 
 export type IJWT = {
-  generation(params: JwtType): Promise<string>;
+  generation(params: JwtProps): Promise<string>;
   deserialize(jwt: string): Promise<JwtType>;
 };
