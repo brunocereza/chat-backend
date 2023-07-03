@@ -3,5 +3,5 @@ import { IUser } from '../../shared/types/user';
 
 export type IUserRepository = {
   create: (params: createUserParams) => Promise<boolean>;
-  getOne(username: string): Promise<IUser>;
+  getOneByName(username: string): Promise<IUser>;
 };
