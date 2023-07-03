@@ -1,8 +1,8 @@
 import { authRepository } from '../../../repositories/authRepository';
-import { userRepository } from '../../../repositories/userRepository';
 import { loginParams } from '../../../shared/dto/login';
 import { jWebToken } from '../../../shared/jwt/index';
 import { ILogin } from '../../../shared/types/login';
+import { userController } from '../userController';
 import { IAuthController } from './types';
 
 class AuthController implements IAuthController {
@@ -12,7 +12,7 @@ class AuthController implements IAuthController {
     return user;
   }
   public async generateJWT(username: string): Promise<string> {
-    const { _id } = await userRepository.getOne(username);
+    const { _id } = await userController.getOneByName(username);
 
     const token = await jWebToken.generation({ username, _id });
     return token;

@@ -12,7 +12,7 @@ class JWebToken implements IJWT {
     let jwtToken = '';
     try {
       jwtToken = jwt.sign(dataUser, SECRET, {
-        expiresIn: '5h',
+        expiresIn: '10h',
       });
     } catch (error) {
       throw error;
@@ -27,7 +27,7 @@ class JWebToken implements IJWT {
     let jwtToken = '';
     try {
       jwtToken = jwt.sign({}, SECRET_PHRASE, {
-        expiresIn: '1s',
+        expiresIn: '10h',
       });
     } catch (error) {
       console.log(error, 'ERROOOR');

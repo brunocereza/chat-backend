@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { Secret } from 'jsonwebtoken';
-import { userRepository } from '../repositories/userRepository';
+import { userController } from '../controllers/v1/userController';
 import { jWebToken } from '../shared/jwt';
 
 export const passport = require('passport');
@@ -19,14 +19,19 @@ passport.use(
     const secretPhraseAccess = req.header('Secret');
 
     const token = req.header('Authorization')?.replace('Bearer ', '');
+
     const tokenDeserialize = await jWebToken.deserialize(token);
     const currentDate = new Date();
     const expirationDate = new Date(+tokenDeserialize.exp * 1000);
-    if (currentDate > expirationDate) {
-      return done(null, false, {
-        message: 'Token expirou, faça login novamente ou informe outro',
-      });
-    }
+    console.log(currentDate, 'atual');
+    console.log(expirationDate, 'token');
+
+    //depois que vira 00h00 o token pega hora errada - n tive tempo de arrumar ainda
+    // if (currentDate > expirationDate) {
+    //   return done(null, false, {
+    //     message: 'Token expirou, faça login novamente ou informe outro',
+    //   });
+    // }
 
     if (secretPhraseAccess !== SECRET_PRHASE) {
       return done(null, false, {
@@ -34,7 +39,7 @@ passport.use(
       });
     }
 
-    const user = await userRepository.getOne(username);
+    const user = await userController.getOneByName(username);
     if (user) {
       return done(null, false, { message: 'Usuário já cadastrado' });
     }

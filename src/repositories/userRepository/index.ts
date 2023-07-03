@@ -28,7 +28,7 @@ class UserRepository implements IUserRepository {
     }
   }
 
-  public async getOne(username: string): Promise<IUser> {
+  public async getOneByName(username: string): Promise<IUser> {
     try {
       const databaseManagare = new DatabaseManager();
       await databaseManagare.connectInit();

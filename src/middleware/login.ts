@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { userRepository } from '../repositories/userRepository';
+import { userController } from '../controllers/v1/userController';
 import { compareHash } from '../shared/encrypt';
 export const passport = require('passport');
 
@@ -14,7 +14,7 @@ passport.use(
     },
     async (username: string, password: string, cb) => {
       try {
-        const user = await userRepository.getOne(username);
+        const user = await userController.getOneByName(username);
 
         if (!user) {
           return cb(null, false, { message: 'User not found' });
