@@ -45,17 +45,55 @@ const io = socket(httpServer, {
 });
 
 const clients: Array<any> = [];
-
+const clientsName: Array<any> = [];
+console.log(clients, 'clients');
 io.on('connection', (client: socket.Socket) => {
-  client.on('join', (params: string) => {
-    clients.push(client);
-    console.log(`Joined: ${client.id} ${params}`);
+  const user = {
+    name: client.handshake.query?.name,
+    id: client.id,
+  };
+
+  //  ${JSON.stringify(client.handshake.query?.name)} <- pegar o nome
+
+  client.on('clientSend', (arg) => {
+    client.emit('serverSend', arg);
+    // console.log(arg); // world
   });
+  clients.push(user);
+
+  client.on('hello', (arg) => {
+    console.log(arg); // world
+  });
+  // envia mensagem pro client
+  client.emit('serverSend', ` message: "oi"", author: "bruno"`);
+
+  // io.on('connection', (socket) => {
+
+  // });
 
   client.on('disconnect', () => {
     clients.splice(clients.indexOf(client), 1);
+    clientsName.splice(
+      clientsName.indexOf(JSON.stringify(client.handshake.query?.name)),
+      1,
+    );
     console.log(`Disconnected: ${client.id}`);
   });
+});
+
+app.get('/msg', (req, res) => {
+  const msg = req.query.msg || '';
+  for (const client of clients) {
+    client.emit('msg', msg);
+  }
+
+  res.json({ ok: true });
+});
+
+app.get('/getAllUserOn', (req, res) => {
+  console.log('all names');
+
+  res.json({ user: clientsName });
 });
 
 httpServer.listen(PORT, () => {
